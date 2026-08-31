@@ -1,69 +1,152 @@
-import Image from "next/image";
+import Link from "next/link";
+import BentoCard from "@/components/ui/BentoCard";
+import ItemCard from "@/components/ui/ItemCard";
+import SkillIcon from "@/components/ui/SkillIcon";
+import { 
+  SiNextdotjs, 
+  SiReact, 
+  SiTailwindcss, 
+  SiAstro,
+  SiCss,
+  SiBootstrap,
+  SiJavascript,
+  SiTypescript,
+  SiD3,
+  SiPhp,
+  SiMysql,
+  SiPostgresql,
+  SiPython,
+  SiFastapi,
+  SiLinux,
+  SiLangchain,
+  SiLanggraph,
+  SiPytorch,
+  SiTensorflow,
+  SiDocker,
+} from "react-icons/si";
+import { LuLibrary } from "react-icons/lu";
+
+import ProfileAvatar from "@/components/ui/ProfileAvatar";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <div className="mt-12 md:mt-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/*Hero*/}
+          {/*About*/}
+          <BentoCard className="md:col-span-2">
+            <ProfileAvatar />
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-100 group-hover:text-white transition-colors">
+              Elias Escalante Fuentes
+            </h1>
+            <p className="mt-4 text-lg text-zinc-400 leading-relaxed max-w-xl">
+              Software Engineer from Argentina. Student of 3rd year in
+              Ingenieria en Sistemas and Analista en Sistemas. Interested in web
+              development, IA/ML and fintech
+            </p>
+          </BentoCard>
+          {/*Stack*/}
+          <BentoCard className="md:row-span-2">
+            <h3 className="text-zinc-100 text-2xl">Skills</h3>
+            <div className="mt-4">
+              <h2 className="text-zinc-400 text-[1.1rem] mb-2">Frontend</h2>
+              <div className="flex flex-wrap gap-2">
+                <SkillIcon icon={<SiNextdotjs className="w-6 h-6" />} name="Next.js" />
+                <SkillIcon icon={<SiReact className="w-6 h-6" />} name="React" />
+                <SkillIcon icon={<SiCss className="w-6 h-6" />} name="CSS" />
+                <SkillIcon icon={<SiTailwindcss className="w-6 h-6" />} name="Tailwind CSS" />
+                <SkillIcon icon={<SiBootstrap className="w-6 h-6" />} name="Bootstrap" />
+                <SkillIcon icon={<SiJavascript className="w-6 h-6" />} name="JavaScript" />
+                <SkillIcon icon={<SiTypescript className="w-6 h-6" />} name="TypeScript" />
+                <SkillIcon icon={<SiAstro className="w-6 h-6" />} name="Astro" />
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <h2 className="text-zinc-400 text-[1.1rem] mb-2">Backend</h2>
+              <div className="flex flex-wrap gap-2">
+                <SkillIcon icon={<SiPython className="w-6 h-6" />} name="Python" />
+                <SkillIcon icon={<SiFastapi className="w-6 h-6" />} name="FastAPI" />
+                <SkillIcon icon={<SiPhp className="w-6 h-6" />} name="PHP" />
+                <SkillIcon icon={<SiD3 className="w-6 h-6" />} name="D3.js" />
+                <SkillIcon icon={<SiMysql className="w-6 h-6" />} name="MySQL" />
+                <SkillIcon icon={<SiPostgresql className="w-6 h-6" />} name="PostgreSQL" />
+                <SkillIcon icon={<SiDocker className="w-6 h-6" />} name="Docker" />
+              </div>
+            </div>
+            <div className="mt-4">
+              <h2 className="text-zinc-400 text-[1.1rem] mb-2">AI</h2>
+              <div className="flex flex-wrap gap-2">
+                <SkillIcon icon={<SiLangchain className="w-6 h-6" />} name="LangChain" />
+                <SkillIcon icon={<SiLanggraph className="w-6 h-6" />} name="LangGraph" />
+                <SkillIcon icon={<SiPytorch className="w-6 h-6" />} name="PyTorch" />
+                <SkillIcon icon={<SiTensorflow className="w-6 h-6" />} name="TensorFlow" />
+              </div>
+            </div>
+          </BentoCard>
+
+          {/*Locations*/}
+          <BentoCard>
+            <h3 className="text-zinc-100 text-2xl text-center">Location</h3>
+          </BentoCard>
+
+          {/*Contact*/}
+          <BentoCard>
+            <h3 className="text-zinc-100 text-center text-2xl">Contact</h3>
+          </BentoCard>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/*Projects*/}
+        <section className="mt-16">
+          <div className="group flex items-center gap-4 mb-6">
+            <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">Projects</h2>
+            <div className="h-[1px] flex-grow bg-zinc-800 transition-colors duration-500 group-hover:bg-emerald-500"></div>
+          </div>
+          <div className="flex flex-col gap-4 mt-4">
+            <ItemCard
+            title="Sistema de Gestión SATI"
+            subtitle="2026"
+            description="Plataforma integral para la gestión de equipos escolares con control de inventario, asignaciones y diagramación relacional."
+            href="#"
+            ></ItemCard>
+            <ItemCard
+            title="Sistema de Gestión de Biblioteca"
+            subtitle="2026"
+            description="Plataforma integral para la gestión de bibliotecas con control de inventario, asignaciones y diagramación relacional."
+            href="#"
+            ></ItemCard>
+          </div>
+        </section>
+
+        {/*Education*/}
+        <div className="mt-16">
+          <div className="flex flex-col gap-4 mt-4">
+            <div className="group flex items-center gap-4 mb-6">
+              <LuLibrary className="w-6 h-6"/>
+              <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">Education</h2>
+              <div className="h-[1px] flex-grow bg-zinc-800 transition-colors duration-500 group-hover:bg-emerald-500"></div>
+            </div>
+            <ItemCard
+            title="Ingenieria en sistemas - 3rd year"
+            subtitle="2024 - Present"
+            description="Universidad Nacional de la Patagonia Austral - UNPA"
+            ></ItemCard>
+            <ItemCard
+            title="Analista en sistemas - Final year"
+            subtitle="2024 - Present"
+            description="Universidad Nacional de la Patagonia Austral - UNPA"
+            ></ItemCard>
+            <ItemCard 
+            title="Google Data Analytics"
+            subtitle="2026"
+            description="Coursera - Google"
+            ></ItemCard>
+          </div>
         </div>
-      </main>
-    </div>
+
+      </div>
+    </>
   );
+   
 }
