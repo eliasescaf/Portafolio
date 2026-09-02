@@ -8,9 +8,8 @@ export default function Footer(){
                     © {new Date().getFullYear()} Elias Escalante Fuentes
                 </p>
                 <div className="flex gap-6">
-                    <Link href="#" className="text-sm font-medium text-zinc-500 hover:text-zinc-300 transition-colors">Github</Link>
-                    <Link href="#" className="text-sm font-medium text-zinc-500 hover:text-zinc-300 transition-colors">E-mail</Link>
-                    <Link href="#" className="text-sm font-medium text-zinc-500 hover:text-zinc-300 transition-colors">LinkedIn</Link>
+                    <Link href="https://github.com/eliasescaf" className="text-sm font-medium text-zinc-500 hover:text-zinc-300 transition-colors">Github</Link>
+                    <Link href="mailto:eliasescalante27@gmail.com" className="text-sm font-medium text-zinc-500 hover:text-zinc-300 transition-colors">E-mail</Link>
                 </div>
             </div>
         </footer>

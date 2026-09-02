@@ -11,10 +11,10 @@ export default function Home(){
 
                 {/*Navigation*/}
                 <menu className="flex gap-6">
-                    <Link href="/" className="text-zinc-400 font-medium text-sm hover:text-zinc-100 transition-colors">
+                    <Link href="/" className="text-zinc-400 font-medium text-sm hover:text-zinc-100 border-b border-zinc-950/80 hover:border-zinc-100 transition-colors">
                         HOME
                     </Link>
-                    <Link href="/blog" className="text-zinc-400 font-medium text-sm hover:text-zinc-100 transition-colors">
+                    <Link href="/blog" className="text-zinc-400 font-medium text-sm hover:text-zinc-100 border-b border-zinc-950/80 hover:border-zinc-100 transition-colors">
                         BLOG
                     </Link>
                 </menu>

@@ -1,4 +1,5 @@
-import Link from "next/link";
+"use client";
+import { motion } from "motion/react";
 import BentoCard from "@/components/ui/BentoCard";
 import ItemCard from "@/components/ui/ItemCard";
 import SkillIcon from "@/components/ui/SkillIcon";
@@ -23,15 +24,24 @@ import {
   SiPytorch,
   SiTensorflow,
   SiDocker,
+  SiGithub
 } from "react-icons/si";
 import { LuLibrary } from "react-icons/lu";
+import { FaProjectDiagram } from "react-icons/fa";
+
+import { MapPinIcon } from "@/components/ui/map-pin";
 
 import ProfileAvatar from "@/components/ui/ProfileAvatar";
+import { Mail } from "lucide-react";
+
 
 export default function Home() {
   return (
     <>
-      <div className="mt-12 md:mt-24">
+      <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }} className="mt-12 md:mt-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/*Hero*/}
           {/*About*/}
@@ -87,19 +97,73 @@ export default function Home() {
           </BentoCard>
 
           {/*Locations*/}
-          <BentoCard>
-            <h3 className="text-zinc-100 text-2xl text-center">Location</h3>
-          </BentoCard>
+          <BentoCard className="relative overflow-hidden group flex flex-col items-center justify-center p-8">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.08)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <MapPinIcon 
+            size={40} 
+            className="text-emerald-500 mb-4 z-10 drop-shadow-lg" 
+          />
+          <div className="text-center z-10 flex flex-col gap-1">
+            <h3 className="text-zinc-100 font-semibold text-xl tracking-tight">
+              Caleta Olivia
+            </h3>
+            <p className="text-zinc-500 text-lg">
+              Santa Cruz, Argentina
+            </p>
+          </div>
+        </BentoCard>
 
           {/*Contact*/}
-          <BentoCard>
-            <h3 className="text-zinc-100 text-center text-2xl">Contact</h3>
-          </BentoCard>
+          {/* Contact */}
+        <BentoCard className="flex flex-col justify-center p-8">
+          <div className="mb-6">
+            <h3 className="text-zinc-100 text-2xl font-semibold tracking-tight">
+              Let's build something.
+            </h3>
+            <p className="text-zinc-400 text-sm mt-2">
+              Feel free to reach out for collaborations or just a friendly hello.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {/* Botón de Email */}
+            <a 
+              href="mailto:eliasescalante27@gmail.com" 
+              className="group flex items-center justify-between p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800 transition-all"
+            >
+              <div className="flex items-center gap-3 text-zinc-300 group-hover:text-zinc-100 transition-colors">
+                <Mail className="w-5 h-5" />
+                <span className="font-medium text-sm">Email me</span>
+              </div>
+              <span className="text-zinc-500 group-hover:text-emerald-500 transition-colors">
+                ↗
+              </span>
+            </a>
+
+            {/* Botón de GitHub */}
+            <a 
+              href="https://github.com/eliasescaf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group flex items-center justify-between p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800 transition-all"
+            >
+              <div className="flex items-center gap-3 text-zinc-300 group-hover:text-zinc-100 transition-colors">
+                <SiGithub className="w-5 h-5" />
+                <span className="font-medium text-sm">GitHub</span>
+              </div>
+              <span className="text-zinc-500 group-hover:text-emerald-500 transition-colors">
+                ↗
+              </span>
+            </a>
+          </div>
+        </BentoCard>
         </div>
+
 
         {/*Projects*/}
         <section className="mt-16">
           <div className="group flex items-center gap-4 mb-6">
+            <FaProjectDiagram className="w-6 h-6"/>
             <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">Projects</h2>
             <div className="h-[1px] flex-grow bg-zinc-800 transition-colors duration-500 group-hover:bg-emerald-500"></div>
           </div>
@@ -145,7 +209,7 @@ export default function Home() {
           </div>
         </div>
 
-      </div>
+      </motion.div>
     </>
   );
    
