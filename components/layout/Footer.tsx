@@ -9,7 +9,7 @@ export default function Footer(){
                 </p>
                 <div className="flex gap-6">
                     <Link href="https://github.com/eliasescaf" className="text-sm font-medium text-zinc-500 hover:text-zinc-300 transition-colors">Github</Link>
-                    <Link href="mailto:eliasescalante27@gmail.com" className="text-sm font-medium text-zinc-500 hover:text-zinc-300 transition-colors">E-mail</Link>
+                    <Link href="mailto:eliasescalante27@gmail.com" className="text-sm font-medium text-zinc-500 hover:text-zinc-300 transition-colors">Email</Link>
                 </div>
             </div>
         </footer>

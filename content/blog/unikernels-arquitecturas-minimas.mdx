@@ -1,0 +1,19 @@
+---
+title: "Comprendiendo Unikernels: Arquitecturas Mínimas"
+date: "Marzo 2026"
+description: "Una exploración sobre cómo los unikernels optimizan recursos eliminando el sistema operativo tradicional."
+---
+
+# La evolución hacia lo mínimo
+
+Cuando pensamos en virtualización tradicional, solemos imaginar servidores pesados corriendo sistemas operativos completos. Sin embargo, hay un enfoque mucho más elegante.
+
+Los **Unikernels** son imágenes de máquina especializadas que se construyen compilando la aplicación directamente con las partes mínimas del sistema operativo que necesita para funcionar. Ni un megabyte más, ni un megabyte menos.
+
+### ¿Por qué importan?
+
+1. **Seguridad:** Al no tener una terminal interactiva (shell) ni utilidades extra, la superficie de ataque se reduce drásticamente.
+2. **Velocidad:** Los tiempos de arranque se miden en milisegundos.
+3. **Eficiencia:** Ideales para microservicios y despliegues masivos.
+
+Podemos levantar una arquitectura usando Python de forma muy directa y aislar procesos con herramientas como Ops, logrando un entorno hiperligero.
