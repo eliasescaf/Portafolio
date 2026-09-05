@@ -8,10 +8,61 @@ description: "Un extenso articulo donde explico de manera sencilla como funciona
 
 En esta página no busco realizar una exposición académica sobre las Redes y Telecomunicaciones, sino dar a entender los conceptos que precisa un desarrollador sobre HTTP, TLS y Redes. 
 
-Serán dos secciones: Como viaja un mensaje desde nuestro terminal hacia otro terminal; y una profundización sobre las capas implicadas en el modelo TCP/IP para que se realice este envío de mensajes. 
-
 Esta información se basa en lo desarrollado en el libro "Redes de computadoras: Un enfoque descendente" escrito por James Kurose y Keith Ross.
 
 ## Como viaja un mensaje desde nuestro terminal hacia otro terminal
 
-Primeramente, imaginemos una situación. Queremos comunicarnos 
+Antes de empezar, quiero aclarar que cuando hablamos de terminal o nodos podemos estar hablando de computadoras, routers o switches.
+
+Primeramente, imaginemos una situación. Queremos comunicarnos con un amigo estando nosotros en Buenos Aires y él en Alemania mediante un servicio de chat web. 
+
+Por supuesto, plantear esta situación hace 100 años sería una locura, pero actualmente es algo cotidiano gracias al modelo TCP/IP. Antes de avanzar con el ejemplo del mensaje, debemos explicar brevemente este modelo para contextualizar. El modelo TCP/IP tiene 5 capas, descriptas de forma descendente como:
+
+1. **Capa de aplicación**. La aplicación se comunica con la red mediante una interfaz llamada socket.
+2. **Capa de transporte**. Los datos a enviar viajan con dos puertos dentro de su información: un puerto que identifica al programa que envía los datos y otro puerto que identifica al programa que tiene que recibir esos datos.
+3. **Capa de red**. Se realiza la comunicación a nivel global en dos etapas: el enrutamiento, donde se calcula la ruta más eficiente mediante algoritmos; y el reenvío, donde el router pasa el paquete al siguiente salto en la ruta.
+4. **Capa de enlace**. Se realiza la comunicación entre nodos físicamente adyacentes; es decir, el salto directo entre tu compu y el router, o entre un router y el siguiente.
+5. **Capa física**. Se realiza la transformación de señales (eléctricas, ópticas o de radio) a unos y ceros digitales usando la placa de red. Vamos a obviar esta capa por ahora para no enredarnos.
+
+Entonces, teniendo en cuenta esto, nosotros al querer enviar un mensaje hacia nuestro amigo en Alemania, vamos a tener que ir atravesando todas estas capas, algunas mas que otras.
+
+Si enviamos un mensaje por chat, entendemos que utilizaremos la Web como tal, la cual utiliza el protocolo HTTP de forma predeterminada. Por lo que se generará una solicitud HTTP con el mensaje que queremos enviar, digamos, "Hola Bruno, en que andas?"
+
+A esta solicitud, que en la capa de aplicación llamamos simplemente "mensaje", le debemos dar ciertas etiquetas para que no se pierda. Acá entra la capa de transporte (el protocolo TCP, que garantiza que los datos lleguen completos y en orden). En esta capa, el mensaje se divide y pasa a llamarse "segmento", y se le asignan dos puertos. El puerto remitente es un número aleatorio de tu compu, pero el del destinatario es fijo: para HTTP tradicional se usa el puerto 80, y para el estándar actual seguro (HTTPS) se usa el puerto 443. Se usa un puerto fijo porque la computadora de Bruno necesita saber a qué aplicación exacta (el navegador web) entregarle esos datos cuando lleguen.
+
+Bien, ya tenemos el paquete con sus puertos (a quién va dirigido). ¿Cómo hacemos para encontrar la computadora de Bruno en Alemania? Acá entra la capa de red y el famoso protocolo IP. Este protocolo se encarga de guardar tu dirección IP de origen y la dirección IP de destino en lo que ahora llamaremos "datagrama". ¿Qué es una dirección IP? Es una dirección (de 32 bits en IPv4) que identifica a tu conexión en internet (como si fuera tu código postal y ciudad). Como esta dirección te la otorga el router al conectarte al WiFi, es dinámica y puede cambiar. La capa de red es la que más trabaja durante el viaje, porque en cada parada de la ruta, el router lee la IP de destino y se pregunta: "¿Esta IP es la mía?". Si la respuesta es no, lo patea para adelante en la ruta; si es sí, lo desencapsula para entregarlo.
+
+Hasta acá, tenemos un datagrama con los datos del mensaje, puertos para las aplicaciones e IPs para saber el destino final global. Pero, ¿cómo se comunica tu compu físicamente con el router que tenés a dos metros? Porque si las IPs cambian según la red, necesitamos un identificador que no cambie nunca para hablar con el equipo de al lado. Para eso aparecen las direcciones MAC (48 bits) en la capa de enlace. Estas vienen grabadas de fábrica en las placas de red y no se pueden modificar. Así, al paquete se le agrega tu MAC de origen y la MAC de destino (la de tu router local) para dar ese primer salto físico.
+
+Bien, repasando, ¿como viaja un mensaje desde nuestro terminal? Primero, se genera una solicitud HTTP, se le añaden los puertos de cada proceso en la capa de transporte, se le añaden las direcciones IP para identificar redes en la capa de red, y se le añade las direcciones MAC para identificar especificamente a cada terminal en la capa de enlace. 
+
+¿Y como avanza este mensaje? Primero, el mensaje viaja al router de nuestra red, este lee la dirección MAC de destino y verifica que coincida con su propia MAC. Verifica las direcciones IP de destino, lee que no es la suya, entonces se lo reenvia al siguiente router que sigue en su enrutamiento, no sin antes cambiar las direcciones MAC de origen y destino. Al pasar al próximo router, se repite este proceso, se lee las direcciones MAC y verifica que coincida con la suya, si la direccion IP de destino no coincide con la suya realiza nuevamente el reenvío. 
+
+Esto se realiza hasta que llegue al router que contiene la IP de destino, el cual al ver que coincide, se lo pasará a la capa de transporte que enviará el paquete al puerto de destino previamente uniendo todos los segmentos y se pasará a la aplicación que corresponda(navegador web en este caso), y finalmente, a Bruno le aparecerá un "Hola Bruno, en que andas?" en su chat.
+
+Para profundizar más sobre estos temas, recomiendo el libro previamente citado.
+
+## Como viaja SEGURO un mensaje desde nuestro terminal hacia otro terminal
+
+Bien, hasta ahora he explicado lo que es el viaje de un mensaje de una terminal hacia otra terminal. Aunque, no hemos tenido en cuenta la seguridad, pues si nos descargamos un programa como "Wireshark" que se dedica a escuchar los paquetes que pasan sobre una red, al trabajar con HTTP, podremos leer los datos que se están enviando, teniendo en cuenta que pueden ser datos como contraseñas, fechas, horarios o bueno, hechos de la vida en general, es un peligro gigantesco.
+
+Para poder securizar los datos que estamos enviando, se utilizan algoritmos de cifrado. Podríamos pensar que, si el remitente y el destinatario conocen el algoritmo de cifrado utilizado, se cifran los datos al enviar y se descifran al llegar y el proceso se terminó, pero debemos tener en cuenta a los atacantes que pueden estar probando distintos tipos de algoritmos de cifrado en el momento que viaja el paquete. 
+
+Por esta razón, es que se creó el protocolo TLS, que, volviendo a las capas anteriormente nombradas, está entre la capa de aplicación y la capa de transporte. No está pensado para trabajar puramente con HTTP, sino que se utiliza para distintas operaciones como envío de correos, aplicaciones móviles, llamadas de voz por IP como Skype y demás servicios.
+
+¿Cómo funciona? Explicaré el protocolo TLS 1.2 en conjunto con el algoritmo de cifrado RSA.
+
+1. **Saludo del cliente**. El cliente se comunica con el servidor del servicio que estamos utilizando y le envía dos cosas: las versiones de TLS con los que puede trabajar, y los algoritmos de cifrado que utiliza.
+2. **Saludo del servidor**. El servidor responde a esta petición eligiendo la versión de TLS a utilizar en esta conexión junto al algoritmo de cifrado. Además, enviará un certificado digital de seguridad, que entre otras cosas, contiene la clave pública del servidor que se utilizará para realizar un **cifrado asimétrico**.
+3. **Envío de clave del cliente**. El cliente genera una clave de sesión y la encripta en conjunto con la clave pública otorgada por el servidor. 
+4. **Recepción de clave del cliente**. El servidor recibe la clave de sesión encriptada por el cliente y la desencripta utilizando su clave privada, la cual es la única que puede desencriptar datos encriptados con su clave pública. Ahora, tanto el cliente como el servidor tienen la clave de sesión de esta conexión.
+5. **Comunicación segura**. Ahora, tanto el cliente como el servidor tienen una clave de sesión en común que solo conocen ellos, que será la que se utilizará para enviar paquetes de datos de forma segura.
+
+Podríamos pensar, ¿por qué no enviamos todos los datos realizando este cifrado asimétrico? Esto se responde con: complejidad computacional. Tener que realizar dos RTT(Round Trip-Time, o tiempo de ida y vuelta) para simplemente intercambiar un dato es complejo, no hace falta imaginar lo que sería si quisieramos cifrar todo el código de una página web, teniendo en cuenta el cifrado y el descifrado. Por eso, la comunicación que resta se realiza utilizando el **cifrado simétrico**, pues ambas partes tienen una clave que solo conocen entre sí.
+
+Y, ¿qué es eso del certificado digital? Se utiliza para evitar que un atacante se entrometa en la conexión, pues, un malhechor podría responder una solicitud de un cliente y engañarlo enviando su clave pública y quedarse con los datos del cliente. El certificado evita esto mediante la firma de un intermediario que garantiza que la clave pública que le envían al cliente es del servidor y no de cualquier entidad.
+
+De esta manera, HTTP se mejora con la extensión conocida por todos llamada HTTPS.
+
+
+
