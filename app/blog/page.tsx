@@ -1,16 +1,31 @@
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
 import AnimateDiv from "@/components/ui/AnimateDiv";
 import ItemCard from "@/components/ui/ItemCard";
 
-const POSTS = [
-    {
-        title: "HTTP y Redes en criollo",
-        date: "2024-09-03",
-        description: "Un extenso articulo donde explico de manera sencilla como funciona el protocolo HTTP y las redes en general, con ejemplos y analogias.",
-        slug: "http-y-redes-en-criollo"
-    }
-];
+const BLOG_DIR = path.join(process.cwd(), "content/blog");
+
+// El listado sale de content/blog, no de una lista escrita a mano.
+// Cada .mdx define title, date (formato ISO YYYY-MM-DD) y description en su frontmatter.
+function getPosts(){
+    return fs.readdirSync(BLOG_DIR)
+        .filter((file) => file.endsWith(".mdx"))
+        .map((file) => {
+            const {data} = matter(fs.readFileSync(path.join(BLOG_DIR, file), "utf-8"));
+            return {
+                slug: file.replace(/\.mdx$/, ""),
+                title: data.title as string,
+                date: data.date as string,
+                description: data.description as string
+            };
+        })
+        .sort((a, b) => b.date.localeCompare(a.date));
+}
 
 export default function BlogPage(){
+    const posts = getPosts();
+
     return(
         <AnimateDiv className="mt-12 md:mt-16">
             <div className="mb-12">
@@ -22,9 +37,9 @@ export default function BlogPage(){
             </div>
 
             <div className="flex flex-col gap-4">
-                {POSTS.map((post, index) => (
+                {posts.map((post) => (
                     <ItemCard
-                    key={index}
+                    key={post.slug}
                     title={post.title}
                     subtitle={post.date}
                     description={post.description}

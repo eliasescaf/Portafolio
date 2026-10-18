@@ -15,13 +15,9 @@ import {
   SiMysql, 
   SiPostgresql, 
   SiPython, 
-  SiLinux, 
   SiLangchain, 
   SiDocker, 
-  SiGithub
 } from "react-icons/si";
-import { LuLibrary } from "react-icons/lu";
-import { FaProjectDiagram } from "react-icons/fa";
 
 export default function SkillCard(){
     return(
