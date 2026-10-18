@@ -6,22 +6,16 @@ import ItemCard from "../ui/ItemCard";
 
 const PROJECTS = [
     {
-        title: "Sistema de Gestión SATI",
-        subtitle: "PHP",
-        description: "Plataforma integral para la gestión de equipos escolares con control de inventario, asignaciones y diagramación relacional.",
-        href: "#"
-    },
-    {
         title: "Sistema de Gestión Plantín",
-        subtitle: "Javascript, PHP",
-        description: "Plataforma integral para la gestión de un vivero con control de inventario, asignaciones y diagramación relacional.",
-        href: "#"
+        subtitle: "PHP, MySQL",
+        description: "Sistema de administración y ventas para vivero: catálogo con categorías y riego, control de stock, clientes, ventas con numeración automática y usuarios con acceso por roles.",
+        link: "https://github.com/eliasescaf/proyectolp"
     },
     {
-        title: "Sistema de Reclutamiento",
-        subtitle: "React, Node.js",
-        description: "Plataforma integral para la gestión de reclutamiento de personal con control de inventario, asignaciones y diagramación relacional.",
-        href: "#"
+        title: "Banco de Técnicos Santa Cruz",
+        subtitle: "Next.js, Express, Supabase",
+        description: "Portal de empleos y red técnica profesional para Santa Cruz: publicación de ofertas, registro de perfiles técnicos y panel de administración con moderación.",
+        link: "https://www.banco-de-tecnicos-santa-cz.com.ar"
     }
 ]
 
@@ -40,15 +34,21 @@ export default function ProjectsSection(){
           <div className="h-[1px] flex-grow bg-zinc-800 transition-colors duration-500 group-hover:bg-emerald-500"></div>
         </div>
         <div className="flex flex-col gap-4 mt-4">
-          {visibleProjects.map((project, index) => (
-            <ItemCard
-                key={index}
-                title={project.title}
-                subtitle={project.subtitle}
-                description={project.description}
-                href={project.href}
-            ></ItemCard>
-          ))}
+          {visibleProjects.map((project, index) => {
+            const isLive = Boolean(project.link) && !project.link.includes("github.com");
+            const tag = !project.link ? "" : isLive ? "live" : "github";
+
+            return (
+              <ItemCard
+                  key={index}
+                  title={project.title}
+                  subtitle={project.subtitle}
+                  description={project.description}
+                  href={project.link}
+                  tag={tag}
+              ></ItemCard>
+            );
+          })}
         </div>
 
         {PROJECTS.length > 2 && (

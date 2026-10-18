@@ -1,4 +1,11 @@
-export default function BentoCard({ children, className = "" }) {
+import type { ReactNode } from "react";
+
+interface BentoCardProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export default function BentoCard({ children, className = "" }: BentoCardProps) {
   return (
     <div 
       className={`p-8 rounded-3xl border border-zinc-800 bg-zinc-900/20 hover:border-emerald-500 transition-colors duration-300 group flex flex-col justify-center ${className}`}
